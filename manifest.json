@@ -4,19 +4,21 @@
   "description": "طلباء کی حاضری اور سبق کی پیشرفت کو ٹریک کرنے کے لیے ایک درخواست۔",
   "start_url": ".",
   "display": "standalone",
-  "background_color": "#f5f7fa",
+  "background_color": "#ffffff",
   "theme_color": "#3498db",
   "orientation": "portrait-primary",
   "icons": [
     {
       "src": "icons/icon-192x192.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "purpose": "any maskable"
     },
     {
       "src": "icons/icon-512x512.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "any maskable"
     }
   ]
 }
