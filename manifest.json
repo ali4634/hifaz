@@ -1,0 +1,22 @@
+{
+  "name": "Hifaz Tracker - حاضری و سبق رجسٹر",
+  "short_name": "Hifaz Tracker",
+  "description": "طلباء کی حاضری اور سبق کی پیشرفت کو ٹریک کرنے کے لیے ایک درخواست۔",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#f5f7fa",
+  "theme_color": "#3498db",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icons/icon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icons/icon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
