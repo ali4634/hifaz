@@ -1,1837 +1,392 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="ur" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مفصل حاضری و سبق رجسٹر</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nafees&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#3498db"/>
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    <link rel="manifest" href="manifest.json">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary-color: #3498db;
-            --secondary-color: #2980b9;
-            --success-color: #27ae60;
-            --danger-color: #e74c3c;
-            --warning-color: #f39c12;
-            --light-color: #ecf0f1;
-            --dark-color: #2c3e50;
-            --absent-color: #ffecec;
-            --present-color: #e8f5e9;
-            --border-radius: 8px;
-            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-        
-        body {
-            font-family: 'Nafees', 'Noto Nastaliq Urdu', sans-serif;
-            margin: 0;
-            padding: 10px;
-            background-color: #f5f7fa;
-            direction: rtl;
-            font-size: 13px;
-            color: #333;
-            line-height: 1.5;
-        }
-        
-        .container {
-            max-width: 100%;
-            margin: 0 auto;
-            background-color: white;
-            padding: 15px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-        }
-        
-        h1, h2, h3, h4, h5 {
-            color: var(--dark-color);
-            font-weight: 700;
-        }
-        
-        h1 {
-            text-align: center;
-            margin-bottom: 12px;
-            font-size: 1.4em;
-            padding-bottom: 8px;
-            border-bottom: 2px solid var(--primary-color);
-        }
-        
-        .tabs {
-            display: flex;
-            margin-bottom: 12px;
-            border-bottom: 1px solid #e0e0e0;
-            gap: 5px;
-            overflow-x: auto;
-            padding-bottom: 5px;
-        }
-        
-        .tab {
-            padding: 6px 12px;
-            cursor: pointer;
-            background-color: #f1f1f1;
-            border-radius: var(--border-radius) var(--border-radius) 0 0;
-            transition: all 0.3s ease;
-            font-size: 0.85em;
-            border: 1px solid #e0e0e0;
-            border-bottom: none;
-            white-space: nowrap;
-        }
-        
-        .tab.active {
-            background-color: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-        }
-        
-        .tab-content {
-            display: none;
-            padding: 12px;
-            background-color: white;
-            border-radius: 0 0 var(--border-radius) var(--border-radius);
-            border: 1px solid #e0e0e0;
-            border-top: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        .date-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            padding: 8px 12px;
-            background-color: var(--primary-color);
-            color: white;
-            border-radius: var(--border-radius);
-            font-size: 0.85em;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
-        .date-selector {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .date-input {
-            position: relative;
-            display: inline-block;
-        }
-        
-        .date-input input {
-            padding: 6px 30px 6px 10px;
-            border-radius: var(--border-radius);
-            border: 1px solid #ddd;
-            font-family: inherit;
-            font-size: 0.85em;
-            width: 140px;
-        }
-        
-        .date-input i {
-            position: absolute;
-            left: 8px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--dark-color);
-            cursor: pointer;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 12px;
-            font-size: 0.8em;
-            box-shadow: var(--box-shadow);
-            border-radius: var(--border-radius);
-            overflow: hidden;
-        }
-        
-        th, td {
-            padding: 8px 10px;
-            text-align: right;
-            border-bottom: 1px solid #e0e0e0;
-        }
-        
-        th {
-            background-color: var(--primary-color);
-            color: white;
-            font-weight: normal;
-            position: sticky;
-            top: 0;
-            font-size: 0.85em;
-        }
-        
-        tr.present-row {
-            background-color: var(--present-color);
-        }
-        
-        tr.absent-row {
-            background-color: var(--absent-color);
-        }
-        
-        tr:hover {
-            background-color: #f8f9fa;
-        }
-        
-        .attendance-check {
-            transform: scale(1.1);
-            cursor: pointer;
-            margin: 0 3px;
-            accent-color: var(--success-color);
-        }
-        
-        .small-btn {
-            padding: 5px 8px;
-            margin: 2px;
-            font-size: 0.75em;
-            border: none;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 3px;
-        }
-        
-        .small-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
-        .add-btn {
-            background-color: var(--success-color);
-            color: white;
-        }
-        
-        .delete-btn {
-            background-color: var(--danger-color);
-            color: white;
-        }
-        
-        .view-btn {
-            background-color: var(--primary-color);
-            color: white;
-        }
-        
-        .whatsapp-btn {
-            background-color: #25D366;
-            color: white;
-        }
-        
-        .comment-icon {
-            color: var(--warning-color);
-            cursor: pointer;
-            font-size: 1.1em;
-            transition: transform 0.2s;
-        }
-        
-        .comment-icon:hover {
-            transform: scale(1.1);
-        }
-        
-        .quantity-icon {
-            color: var(--primary-color);
-            cursor: pointer;
-            font-size: 0.9em;
-            margin-right: 4px;
-        }
-        
-        .section-selector {
-            margin: 8px 0;
-            padding: 6px 10px;
-            border-radius: var(--border-radius);
-            border: 1px solid #ddd;
-            width: 180px;
-            font-family: inherit;
-            font-size: 0.85em;
-            background-color: white;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-        
-        /* موڈل اسٹائلز */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.4);
-        }
-        
-        .modal-content {
-            background-color: #fefefe;
-            margin: 10% auto;
-            padding: 15px;
-            border: 1px solid #888;
-            width: 90%;
-            max-width: 450px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-        }
-        
-        .close {
-            color: #aaa;
-            float: left;
-            font-size: 24px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        
-        .close:hover {
-            color: black;
-        }
-        
-        /* اعداد و شمار کارڈز */
-        .stats-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-            gap: 12px;
-            margin-bottom: 15px;
-        }
-        
-        .stat-card {
-            background-color: white;
-            padding: 12px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            text-align: center;
-        }
-        
-        .stat-card h3 {
-            margin-top: 0;
-            color: var(--dark-color);
-            font-size: 0.85em;
-        }
-        
-        .stat-value {
-            font-size: 1.3em;
-            font-weight: bold;
-            color: var(--primary-color);
-        }
-        
-        /* ریکارڈ فلٹرز */
-        .record-filters {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 15px;
-            align-items: center;
-        }
-        
-        .record-selector {
-            padding: 6px 10px;
-            border-radius: var(--border-radius);
-            border: 1px solid #ddd;
-            font-family: inherit;
-            font-size: 0.85em;
-            min-width: 130px;
-        }
-        
-        .year-selector-container {
-            display: flex;
-            gap: 4px;
-        }
-        
-        .add-year-btn {
-            background-color: var(--success-color);
-            color: white;
-            border: none;
-            border-radius: var(--border-radius);
-            padding: 0 10px;
-            cursor: pointer;
-            font-size: 1.1em;
-        }
-        
-        /* خلاصہ کارڈز */
-        .summary-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-            gap: 8px;
-            margin-top: 12px;
-        }
-        
-        .summary-card {
-            background-color: white;
-            padding: 8px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            text-align: center;
-        }
-        
-        .summary-card h5 {
-            margin: 4px 0;
-            font-size: 0.75em;
-            color: var(--dark-color);
-        }
-        
-        /* فون نمبر اسٹائل */
-        .phone-number {
-            font-size: 0.75em;
-            color: #666;
-        }
-        
-        .edit-phone {
-            cursor: pointer;
-            margin-left: 4px;
-        }
-        
-        /* نمایاں غیر حاضرین */
-        .highlight-absent {
-            border-left: 3px solid var(--danger-color);
-        }
-        
-        /* مقدار کی معلومات */
-        .quantity-info {
-            font-size: 0.65em;
-            color: #666;
-            margin-top: 2px;
-            display: block;
-        }
-        
-        /* ان پٹ گروپ */
-        .input-group {
-            margin-bottom: 8px;
-        }
-        
-        .input-group label {
-            display: block;
-            margin-bottom: 4px;
-            font-weight: bold;
-            font-size: 0.85em;
-        }
-        
-        .input-group input, .input-group select {
-            width: 100%;
-            padding: 6px;
-            border-radius: var(--border-radius);
-            border: 1px solid #ddd;
-            font-family: inherit;
-            font-size: 0.85em;
-        }
-        
-        /* واٹس ایپ شیئر بٹن */
-        .share-buttons {
-            display: flex;
-            gap: 8px;
-            margin-top: 12px;
-            justify-content: center;
-        }
-        
-        /* خوبصورت ٹیبل ہیڈر */
-        .table-header {
-            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-        }
-        
-        /* طلباء مینجمنٹ اسٹائلز */
-        .student-management {
-            margin: 15px 0;
-            padding: 10px;
-            background-color: #f8f9fa;
-            border-radius: var(--border-radius);
-            border: 1px solid #ddd;
-        }
-        
-        .student-list {
-            max-height: 200px;
-            overflow-y: auto;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: var(--border-radius);
-            padding: 5px;
-        }
-        
-        .student-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 5px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .student-item:last-child {
-            border-bottom: none;
-        }
-        
-        /* چھوٹی اسکرینز کے لیے رسپانسیو ایڈجسٹمنٹ */
-        @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-            
-            .stats-container {
-                grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-            }
-            
-            .summary-cards {
-                grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-            }
-            
-            .record-filters {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .record-selector {
-                width: 100%;
-            }
-            
-            .date-input input {
-                width: 120px;
-            }
-        }
-    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    
+    <!-- External CSS -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>📖 مفصل حاضری و سبق رجسٹر</h1>
-        
-        <select class="section-selector" id="section-selector">
-            <option value="section1">سیکشن 1</option>
-            <option value="section2">سیکشن 2</option>
-            <option value="section3">سیکشن 3</option>
-        </select>
-        
-        <div class="tabs">
-            <div class="tab active" data-tab="attendance">حاضری</div>
-            <div class="tab" data-tab="stats">اعداد و شمار</div>
-            <div class="tab" data-tab="absentees">غیر حاضرین</div>
-            <div class="tab" data-tab="full-record">مکمل ریکارڈ</div>
-            <div class="tab" data-tab="students">طلباء مینجمنٹ</div>
-        </div>
-        
-        <div class="tab-content active" id="attendance-tab">
-            <div class="date-header">
-                <div class="date-selector">
-                    <div class="date-input">
-                        <input type="date" id="date-picker">
-                        <i class="fas fa-calendar-alt"></i>
-                    </div>
-                    <h2 id="current-date"></h2>
+<div class="container">
+    <h1>📖 مفصل حاضری و سبق رجسٹر (محفوظ ورژن)</h1>
+    
+    <select class="section-selector" id="section-selector">
+        <option value="section1">سیکشن 1</option>
+        <option value="section2">سیکشن 2</option>
+        <option value="section3">سیکشن 3</option>
+    </select>
+    
+    <div class="tabs">
+        <div class="tab active" data-tab="attendance">حاضری</div>
+        <div class="tab" data-tab="stats">اعداد و شمار</div>
+        <div class="tab" data-tab="full-record">مکمل ریکارڈ</div>
+        <div class="tab" data-tab="students">طلباء مینجمنٹ</div>
+        <div class="tab" data-tab="backup">بیک اپ & بحالی</div>
+    </div>
+    
+    <div class="tab-content active" id="attendance-tab">
+        <div class="date-header">
+            <div class="date-selector">
+                <div class="date-input">
+                    <input type="date" id="date-picker">
+                    <i class="fas fa-calendar-alt"></i>
                 </div>
-            </div>
-            
-            <div style="overflow-x: auto;">
-                <table id="attendance-table">
-                    <thead>
-                        <tr class="table-header">
-                            <th width="25%">نام</th>
-                            <th width="8%">حاضری</th>
-                            <th width="12%">سبق</th>
-                            <th width="12%">سبقی</th>
-                            <th width="12%">منزل</th>
-                            <th width="8%">تبصرہ</th>
-                            <th width="23%">عمل</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- ڈیٹا یہاں داخل ہوگا -->
-                    </tbody>
-                </table>
-            </div>
-            
-            <div style="margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;">
-                <button class="small-btn add-btn" id="save-btn">💾 محفوظ کریں</button>
-                <button class="small-btn add-btn" id="export-btn">📤 ڈیٹا ایکسپورٹ کریں</button>
-                <input type="file" id="import-btn" style="display: none;" accept=".json"/>
-                <button class="small-btn add-btn" onclick="document.getElementById('import-btn').click()">📥 ڈیٹا امپورٹ کریں</button>
+                <h2 id="current-date"></h2>
+                <button class="small-btn add-btn" id="next-day-btn">اگلے دن</button>
             </div>
         </div>
         
-        <div class="tab-content" id="stats-tab">
-            <h2>آج کا خلاصہ</h2>
-            
-            <div class="stats-container">
-                <div class="stat-card">
-                    <h3>کل طلباء</h3>
-                    <div class="stat-value" id="total-students">0</div>
-                </div>
-                <div class="stat-card">
-                    <h3>حاضرین</h3>
-                    <div class="stat-value" id="present-count">0</div>
-                </div>
-                <div class="stat-card">
-                    <h3>غیر حاضرین</h3>
-                    <div class="stat-value" id="absent-count">0</div>
-                </div>
-                <div class="stat-card">
-                    <h3>سبق سنانے والے</h3>
-                    <div class="stat-value" id="lesson-count">0</div>
-                </div>
-                <div class="stat-card">
-                    <h3>سبقی سنانے والے</h3>
-                    <div class="stat-value" id="homework-count">0</div>
-                </div>
-                <div class="stat-card">
-                    <h3>منزل مکمل کرنے والے</h3>
-                    <div class="stat-value" id="milestone-count">0</div>
-                </div>
+        <div style="overflow-x: auto;">
+            <table id="attendance-table">
+                <thead>
+                    <tr class="table-header">
+                        <th width="25%">نام</th>
+                        <th width="8%">حاضری</th>
+                        <th width="12%">سبق</th>
+                        <th width="12%">سبقی</th>
+                        <th width="12%">منزل</th>
+                        <th width="8%">تبصرہ</th>
+                        <th width="23%">عمل</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- ڈیٹا یہاں داخل ہوگا -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div style="margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap;">
+            <button class="small-btn add-btn" id="save-btn">💾 محفوظ کریں</button>
+            <button class="small-btn add-btn" id="export-btn">📤 JSON ایکسپورٹ</button>
+            <input type="file" id="import-btn" style="display: none;" accept=".json"/>
+            <button class="small-btn add-btn" onclick="document.getElementById('import-btn').click()">📥 JSON درآمد</button>
+            <button class="small-btn add-btn" id="export-csv-btn">📊 CSV ایکسپورٹ</button>
+            <input type="file" id="import-csv-btn" style="display: none;" accept=".csv"/>
+            <button class="small-btn add-btn" onclick="document.getElementById('import-csv-btn').click()">📊 CSV درآمد</button>
+        </div>
+    </div>
+    
+    <div class="tab-content" id="stats-tab">
+        <h2>آج کا خلاصہ</h2>
+        
+        <div class="stats-container">
+            <div class="stat-card">
+                <h3>کل طلباء</h3>
+                <div class="stat-value" id="total-students">0</div>
             </div>
-            
-            <h3>تفصیلی رپورٹ</h3>
-            <div style="overflow-x: auto;">
-                <table class="report-table">
-                    <thead>
-                        <tr class="table-header">
-                            <th>کیٹیگری</th>
-                            <th>تعداد</th>
-                            <th>فیصد</th>
-                            <th>مقدار</th>
-                        </tr>
-                    </thead>
-                    <tbody id="stats-details">
-                        <!-- اعداد و شمار یہاں داخل ہوں گے -->
-                    </tbody>
-                </table>
+            <div class="stat-card">
+                <h3>حاضرین</h3>
+                <div class="stat-value" id="present-count">0</div>
+                <div class="student-name-small" id="present-names"></div>
+            </div>
+            <div class="stat-card">
+                <h3>غیر حاضرین</h3>
+                <div class="stat-value" id="absent-count">0</div>
+                <div class="student-name-small" id="absent-names"></div>
+            </div>
+            <div class="stat-card">
+                <h3>سبق سنانے والے</h3>
+                <div class="stat-value" id="lesson-count">0</div>
+                <div class="student-name-small" id="lesson-names"></div>
+            </div>
+            <div class="stat-card">
+                <h3>سبقی سنانے والے</h3>
+                <div class="stat-value" id="homework-count">0</div>
+                <div class="student-name-small" id="homework-names"></div>
+            </div>
+            <div class="stat-card">
+                <h3>منزل مکمل کرنے والے</h3>
+                <div class="stat-value" id="milestone-count">0</div>
+                <div class="student-name-small" id="milestone-names"></div>
             </div>
         </div>
         
-        <div class="tab-content" id="absentees-tab">
-            <h2>گزشتہ غیر حاضرین</h2>
-            <div id="previous-absentees">
-                <!-- غیر حاضرین کی فہرست یہاں داخل ہوگی -->
-            </div>
+        <h3>تفصیلی رپورٹ</h3>
+        <div style="overflow-x: auto;">
+            <table class="report-table">
+                <thead>
+                    <tr class="table-header">
+                        <th>کیٹیگری</th>
+                        <th>تعداد</th>
+                        <th>فیصد</th>
+                        <th>مقدار</th>
+                    </tr>
+                </thead>
+                <tbody id="stats-details">
+                    <!-- اعداد و شمار یہاں داخل ہوں گے -->
+                </tbody>
+            </table>
         </div>
-
+    </div>
         <div class="tab-content" id="full-record-tab">
-            <h2>مکمل ریکارڈ</h2>
-            
-            <div class="record-filters">
-                <div class="year-selector-container">
-                    <select id="year-selector" class="record-selector">
-                        <option value="">-- سال منتخب کریں --</option>
-                        <!-- JavaScript سے خودبخود بھر جائے گا -->
-                    </select>
-                    <button class="add-year-btn" id="add-year-btn">+</button>
-                </div>
-                
-                <select id="month-selector" class="record-selector">
-                    <option value="">-- مہینہ منتخب کریں --</option>
+        <h2>مکمل ریکارڈ</h2>
+        
+        <div class="record-filters">
+            <div class="year-selector-container">
+                <select id="year-selector" class="record-selector">
+                    <option value="">-- سال منتخب کریں --</option>
                     <!-- JavaScript سے خودبخود بھر جائے گا -->
                 </select>
-                
-                <select id="student-selector" class="record-selector">
-                    <option value="">-- طالب علم منتخب کریں --</option>
-                    <!-- JavaScript سے خودبخود بھر جائے گا -->
-                </select>
-                
-                <button class="small-btn add-btn" id="load-record">لوڈ کریں</button>
+                <button class="add-year-btn" id="add-year-btn">+</button>
             </div>
             
-            <div id="full-record-result" style="display: none;">
-                <div style="overflow-x: auto;">
-                    <table class="report-table">
-                        <thead>
-                            <tr class="table-header">
-                                <th>نام</th>
-                                <th>تاریخ</th>
-                                <th>حاضری</th>
-                                <th>سبق</th>
-                                <th>سبقی</th>
-                                <th>منزل</th>
-                                <th>تبصرہ</th>
-                                <th>سبق مقدار</th>
-                                <th>سبقی مقدار</th>
-                                <th>منزل مقدار</th>
-                            </tr>
-                        </thead>
-                        <tbody id="record-data">
-                            <!-- ریکارڈ ڈیٹا یہاں داخل ہوگا -->
-                        </tbody>
-                    </table>
-                </div>
-                
-                <div class="record-summary">
-                    <h3>خلاصہ</h3>
-                    <div id="summary-stats">
-                        <!-- خلاصہ اعداد و شمار یہاں داخل ہوں گے -->
-                    </div>
-                    
-                    <div class="share-buttons">
-                        <button class="small-btn whatsapp-btn" id="share-whatsapp">
-                            <i class="fab fa-whatsapp"></i> واٹس ایپ پر شیئر کریں
-                        </button>
-                    </div>
-                </div>
-            </div>
+            <select id="month-selector" class="record-selector">
+                <option value="">-- مہینہ منتخب کریں --</option>
+                <!-- JavaScript سے خودبخود بھر جائے گا -->
+            </select>
+            
+            <select id="student-selector" class="record-selector">
+                <option value="">-- طالب علم منتخب کریں --</option>
+                <!-- JavaScript سے خودبخود بھر جائے گا -->
+            </select>
+            
+            <input type="date" id="record-date-picker" class="record-date-picker" placeholder="تاریخ منتخب کریں">
+            
+            <button class="small-btn add-btn" id="load-record">لوڈ کریں</button>
         </div>
         
-        <!-- طلباء مینجمنٹ ٹیب -->
-        <div class="tab-content" id="students-tab">
-            <h2>طلباء کی انتظامیہ</h2>
-            
-            <div class="student-management">
-                <h3>طلباء کی فہرست</h3>
-                <div class="input-group">
-                    <input type="text" id="new-student-name" placeholder="نیا طالب علم کا نام">
-                    <button class="small-btn add-btn" id="add-student-btn">شامل کریں</button>
-                </div>
-                
-                <div class="student-list" id="student-list">
-                    <!-- طلباء کی فہرست یہاں ظاہر ہوگی -->
-                </div>
-                
-                <div style="margin-top: 10px;">
-                    <button class="small-btn delete-btn" id="clear-students-btn">تمام طلباء حذف کریں</button>
-                </div>
-            </div>
-            
-            <div style="margin-top: 20px;">
-                <h3>درآمد/برآمد</h3>
-                <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                    <button class="small-btn add-btn" id="export-students-btn">طلباء کی فہرست برآمد کریں</button>
-                    <input type="file" id="import-students-btn" style="display: none;" accept=".json"/>
-                    <button class="small-btn add-btn" onclick="document.getElementById('import-students-btn').click()">طلباء کی فہرست درآمد کریں</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- تبصرہ موڈل -->
-    <div id="comment-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2 id="comment-title">طالب علم کا تبصرہ</h2>
-            <textarea id="comment-text" rows="4" style="width: 100%; padding: 8px; border-radius: var(--border-radius); border: 1px solid #ddd;"></textarea>
-            <button class="small-btn add-btn" id="save-comment" style="margin-top: 10px;">محفوظ کریں</button>
-        </div>
-    </div>
-
-    <!-- فون نمبر موڈل -->
-    <div id="phone-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2 id="phone-title">سرپرست کا فون نمبر</h2>
-            <input type="text" id="phone-number" placeholder="">
-            <button class="small-btn add-btn" id="save-phone" style="margin-top: 10px;">محفوظ کریں</button>
-        </div>
-    </div>
-
-    <!-- مقدار موڈل -->
-    <div id="quantity-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2 id="quantity-title">مقدار کی تفصیلات</h2>
-            <div class="input-group">
-                <label for="lesson-quantity">سبق مقدار</label>
-                <input type="text" id="lesson-quantity" placeholder="">
-            </div>
-            <div class="input-group">
-                <label for="homework-quantity">سبقی مقدار</label>
-                <input type="text" id="homework-quantity" placeholder="">
-            </div>
-            <div class="input-group">
-                <label for="milestone-quantity">منزل مقدار</label>
-                <input type="text" id="milestone-quantity" placeholder="">
-            </div>
-            <button class="small-btn add-btn" id="save-quantity" style="margin-top: 10px;">محفوظ کریں</button>
-        </div>
-    </div>
-
-    <!-- رپورٹ موڈل -->
-    <div id="report-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2 id="report-title">طالب علم کی رپورٹ</h2>
-            <div id="report-content">
+        <div id="full-record-result" style="display: none;">
+            <div style="overflow-x: auto;">
                 <table class="report-table">
-                    <!-- رپورٹ ڈیٹا یہاں داخل ہوگا -->
+                    <thead>
+                        <tr class="table-header">
+                            <th>نام</th>
+                            <th>تاریخ</th>
+                            <th>حاضری</th>
+                            <th>سبق</th>
+                            <th>سبقی</th>
+                            <th>منزل</th>
+                            <th>تبصرہ</th>
+                            <th>سبق مقدار</th>
+                            <th>سبقی مقدار</th>
+                            <th>منزل مقدار</th>
+                        </tr>
+                    </thead>
+                    <tbody id="record-data">
+                        <!-- ریکارڈ ڈیٹا یہاں داخل ہوگا -->
+                    </tbody>
                 </table>
             </div>
-        </div>
-    </div>
-
-    <!-- نیا سال شامل کرنے کا موڈل -->
-    <div id="year-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>نیا سال شامل کریں</h2>
-            <input type="number" id="new-year" placeholder="" min="2023" max="2100" style="width: 100%; padding: 8px; border-radius: var(--border-radius); border: 1px solid #ddd; margin: 10px 0;">
-            <button class="small-btn add-btn" id="save-year" style="margin-top: 10px;">محفوظ کریں</button>
-        </div>
-    </div>
-
-    <script>
-        // تاریخ کا تعین
-        const currentDateElement = document.getElementById('current-date');
-        let currentDate = new Date();
-        let selectedStudentIndex = null;
-        let currentField = '';
-        
-        // ڈیٹا ڈھانچہ
-        let attendanceData = {
-            sections: {
-                section1: {
-                    students: [],
-                    attendance: {}
-                },
-                section2: {
-                    students: [],
-                    attendance: {}
-                },
-                section3: {
-                    students: [],
-                    attendance: {}
-                }
-            },
-            studentDetails: {} // طلباء کی اضافی تفصیلات
-        };
-
-        // ایپلیکیشن شروع کرنے پر ڈیٹا لوڈ کریں
-        function initApp() {
-            const savedData = localStorage.getItem('attendanceData');
-            if (savedData) {
-                try {
-                    attendanceData = JSON.parse(savedData);
-                    // یقینی بنائیں کہ تمام سیکشنز موجود ہیں
-                    if (!attendanceData.sections.section1) attendanceData.sections.section1 = {students: [], attendance: {}};
-                    if (!attendanceData.sections.section2) attendanceData.sections.section2 = {students: [], attendance: {}};
-                    if (!attendanceData.sections.section3) attendanceData.sections.section3 = {students: [], attendance: {}};
-                    if (!attendanceData.studentDetails) attendanceData.studentDetails = {};
-                } catch (e) {
-                    console.error("ڈیٹا لوڈ کرنے میں خرابی:", e);
-                    // خراب ڈیٹا کی صورت میں ڈیفالٹ ڈیٹا استعمال کریں
-                    attendanceData = {
-                        sections: {
-                            section1: {students: [], attendance: {}},
-                            section2: {students: [], attendance: {}},
-                            section3: {students: [], attendance: {}}
-                        },
-                        studentDetails: {}
-                    };
-                }
-            }
             
-            updateDateDisplay();
-            loadAttendanceData();
-            renderStudentList();
-            initializeRecordTab();
-        }
-
-        // تاریخ کی ظاہری شکل اپڈیٹ کریں
-        function updateDateDisplay() {
-            const datePicker = document.getElementById('date-picker');
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            
-            datePicker.value = currentDate.toISOString().split('T')[0];
-            currentDateElement.textContent = currentDate.toLocaleDateString('ur-PK', options);
-        }
-
-        // حاضری کا ڈیٹا لوڈ کریں
-        function loadAttendanceData() {
-            const dateStr = currentDate.toISOString().split('T')[0];
-            const section = document.getElementById('section-selector').value;
-            
-            // اگر اس تاریخ کا ڈیٹا موجود نہیں تو نیا ڈیٹا بنائیں
-            if (!attendanceData.sections[section].attendance[dateStr]) {
-                const newAttendance = attendanceData.sections[section].students.map(() => ({
-                    present: true,
-                    lesson: false,
-                    homework: false,
-                    milestone: false,
-                    comment: '',
-                    lessonQuantity: "",
-                    homeworkQuantity: "",
-                    milestoneQuantity: ""
-                }));
-                attendanceData.sections[section].attendance[dateStr] = newAttendance;
-            }
-            
-            renderAttendanceTable();
-            updateStats();
-            highlightPreviousAbsentees();
-        }
-
-        // حاضری کی ٹیبل رینڈر کریں
-        function renderAttendanceTable() {
-            const dateStr = currentDate.toISOString().split('T')[0];
-            const section = document.getElementById('section-selector').value;
-            const tableBody = document.querySelector('#attendance-table tbody');
-            tableBody.innerHTML = '';
-            
-            const students = attendanceData.sections[section].students;
-            const attendanceRecords = attendanceData.sections[section].attendance[dateStr] || [];
-            
-            students.forEach((student, index) => {
-                const record = attendanceRecords[index] || {
-                    present: true,
-                    lesson: false,
-                    homework: false,
-                    milestone: false,
-                    comment: '',
-                    lessonQuantity: "",
-                    homeworkQuantity: "",
-                    milestoneQuantity: ""
-                };
-                
-                const row = document.createElement('tr');
-                if (record.present) {
-                    row.classList.add('present-row');
-                } else {
-                    row.classList.add('absent-row');
-                }
-                
-                // طالب علم کی تفصیلات
-                const studentDetail = attendanceData.studentDetails[student] || {};
-                
-                row.innerHTML = `
-                    <td>
-                        ${student}
-                        <br>
-                        <span class="phone-number">
-                            <span class="edit-phone" data-student="${student}">✏️</span>
-                            ${studentDetail.phone || 'فون نمبر نہیں'}
-                        </span>
-                    </td>
-                    <td><input type="checkbox" class="attendance-check" ${record.present ? 'checked' : ''} data-field="present" data-index="${index}"></td>
-                    <td>
-                        <input type="checkbox" class="attendance-check" ${record.lesson ? 'checked' : ''} ${record.present ? '' : 'disabled'} data-field="lesson" data-index="${index}">
-                        ${record.lesson && record.lessonQuantity ? `<span class="quantity-info">${record.lessonQuantity}</span>` : ''}
-                        <i class="fas fa-info-circle quantity-icon" data-field="lesson" data-index="${index}"></i>
-                    </td>
-                    <td>
-                        <input type="checkbox" class="attendance-check" ${record.homework ? 'checked' : ''} ${record.present ? '' : 'disabled'} data-field="homework" data-index="${index}">
-                        ${record.homework && record.homeworkQuantity ? `<span class="quantity-info">${record.homeworkQuantity}</span>` : ''}
-                        <i class="fas fa-info-circle quantity-icon" data-field="homework" data-index="${index}"></i>
-                    </td>
-                    <td>
-                        <input type="checkbox" class="attendance-check" ${record.milestone ? 'checked' : ''} ${record.present ? '' : 'disabled'} data-field="milestone" data-index="${index}">
-                        ${record.milestone && record.milestoneQuantity ? `<span class="quantity-info">${record.milestoneQuantity}</span>` : ''}
-                        <i class="fas fa-info-circle quantity-icon" data-field="milestone" data-index="${index}"></i>
-                    </td>
-                    <td><span class="comment-icon" data-index="${index}">💬</span> ${record.comment ? '✔' : ''}</td>
-                    <td>
-                        <button class="small-btn view-btn" data-student="${student}">رپورٹ</button>
-                    </td>
-                `;
-                
-                tableBody.appendChild(row);
-            });
-            
-            addEventListeners();
-        }
-
-        // طلباء کی فہرست رینڈر کریں
-        function renderStudentList() {
-            const section = document.getElementById('section-selector').value;
-            const studentList = document.getElementById('student-list');
-            studentList.innerHTML = '';
-            
-            attendanceData.sections[section].students.forEach((student, index) => {
-                const studentItem = document.createElement('div');
-                studentItem.className = 'student-item';
-                studentItem.innerHTML = `
-                    <span>${student}</span>
-                    <button class="small-btn delete-btn" data-index="${index}">حذف</button>
-                `;
-                studentList.appendChild(studentItem);
-            });
-            
-            // حذف بٹن کے لیے ایونٹ لسٹنرز
-            document.querySelectorAll('#student-list .delete-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const index = this.dataset.index;
-                    const section = document.getElementById('section-selector').value;
-                    const studentName = attendanceData.sections[section].students[index];
-                    
-                    if (confirm(`کیا آپ واقعی ${studentName} کو حذف کرنا چاہتے ہیں؟`)) {
-                        attendanceData.sections[section].students.splice(index, 1);
-                        
-                        // تمام تاریخوں سے اس طالب علم کا ڈیٹا حذف کریں
-                        for (const date in attendanceData.sections[section].attendance) {
-                            if (attendanceData.sections[section].attendance[date][index]) {
-                                attendanceData.sections[section].attendance[date].splice(index, 1);
-                            }
-                        }
-                        
-                        renderStudentList();
-                        saveData();
-                        loadAttendanceData();
-                        updateStudentSelector();
-                    }
-                });
-            });
-        }
-
-        // ڈیٹا محفوظ کریں
-        function saveData() {
-            localStorage.setItem('attendanceData', JSON.stringify(attendanceData));
-        }
-
-        // اعداد و شمار اپڈیٹ کریں
-        function updateStats() {
-            const dateStr = currentDate.toISOString().split('T')[0];
-            const section = document.getElementById('section-selector').value;
-            
-            const students = attendanceData.sections[section].students;
-            const attendanceRecords = attendanceData.sections[section].attendance[dateStr] || [];
-            
-            const total = students.length;
-            const present = attendanceRecords.filter(r => r?.present).length;
-            const absent = total - present;
-            const lesson = attendanceRecords.filter(r => r?.lesson).length;
-            const homework = attendanceRecords.filter(r => r?.homework).length;
-            const milestone = attendanceRecords.filter(r => r?.milestone).length;
-            
-            // مقداروں کا حساب
-            let totalLessonQuantity = 0;
-            let totalHomeworkQuantity = 0;
-            let totalMilestoneQuantity = 0;
-            
-            attendanceRecords.forEach(record => {
-                if (record?.lesson && record.lessonQuantity) {
-                    const match = record.lessonQuantity.match(/\d+/);
-                    if (match) totalLessonQuantity += parseInt(match[0]);
-                }
-                if (record?.homework && record.homeworkQuantity) {
-                    const match = record.homeworkQuantity.match(/\d+/);
-                    if (match) totalHomeworkQuantity += parseInt(match[0]);
-                }
-                if (record?.milestone && record.milestoneQuantity) {
-                    const match = record.milestoneQuantity.match(/\d+/);
-                    if (match) totalMilestoneQuantity += parseInt(match[0]);
-                }
-            });
-            
-            // کارڈز اپڈیٹ کریں
-            document.getElementById('total-students').textContent = total;
-            document.getElementById('present-count').textContent = present;
-            document.getElementById('absent-count').textContent = absent;
-            document.getElementById('lesson-count').textContent = lesson;
-            document.getElementById('homework-count').textContent = homework;
-            document.getElementById('milestone-count').textContent = milestone;
-            
-            // تفصیلی جدول اپڈیٹ کریں
-            const statsDetails = document.getElementById('stats-details');
-            statsDetails.innerHTML = '';
-            
-            const categories = [
-                { name: 'حاضری', value: present, total, quantity: '' },
-                { name: 'سبق', value: lesson, total: present, quantity: totalLessonQuantity > 0 ? `کل مقدار: ${totalLessonQuantity}` : '' },
-                { name: 'سبقی', value: homework, total: present, quantity: totalHomeworkQuantity > 0 ? `کل مقدار: ${totalHomeworkQuantity}` : '' },
-                { name: 'منزل', value: milestone, total: present, quantity: totalMilestoneQuantity > 0 ? `کل مقدار: ${totalMilestoneQuantity}` : '' }
-            ];
-            
-            categories.forEach(cat => {
-                const row = document.createElement('tr');
-                const percentage = cat.total > 0 ? Math.round((cat.value / cat.total) * 100) : 0;
-                
-                row.innerHTML = `
-                    <td>${cat.name}</td>
-                    <td>${cat.value}/${cat.total}</td>
-                    <td>${percentage}%</td>
-                    <td>${cat.quantity}</td>
-                `;
-                
-                statsDetails.appendChild(row);
-            });
-        }
-
-        // گزشتہ غیر حاضرین کو نمایاں کریں
-        function highlightPreviousAbsentees() {
-            const dateStr = currentDate.toISOString().split('T')[0];
-            const section = document.getElementById('section-selector').value;
-            const yesterday = new Date(currentDate);
-            yesterday.setDate(yesterday.getDate() - 1);
-            const yesterdayStr = yesterday.toISOString().split('T')[0];
-            
-            // غیر حاضرین کی فہرست بنائیں
-            const absenteesList = document.getElementById('previous-absentees');
-            absenteesList.innerHTML = '<p>گزشتہ دن کے غیر حاضرین:</p>';
-            
-            if (attendanceData.sections[section]?.attendance[yesterdayStr]) {
-                const yesterdayRecords = attendanceData.sections[section].attendance[yesterdayStr];
-                const yesterdayAbsentees = attendanceData.sections[section].students.filter((student, index) => {
-                    return yesterdayRecords[index] && !yesterdayRecords[index].present;
-                });
-                
-                if (yesterdayAbsentees.length > 0) {
-                    const ul = document.createElement('ul');
-                    yesterdayAbsentees.forEach(student => {
-                        const li = document.createElement('li');
-                        li.textContent = student;
-                        ul.appendChild(li);
-                    });
-                    absenteesList.appendChild(ul);
-                } else {
-                    absenteesList.innerHTML += '<p>کوئی غیر حاضر نہیں تھا</p>';
-                }
-            } else {
-                absenteesList.innerHTML += '<p>کوئی ڈیٹا دستیاب نہیں</p>';
-            }
-        }
-
-        // مکمل ریکارڈ ٹیب کے لیے فنکشنز
-        function initializeRecordTab() {
-            // سالوں کا ڈراپ ڈاؤن بھریں
-            const yearSelect = document.getElementById('year-selector');
-            const currentYear = new Date().getFullYear();
-            
-            yearSelect.innerHTML = '<option value="">-- سال منتخب کریں --</option>';
-            
-            // 2020 سے موجودہ سال + 5 تک کے سال شامل کریں
-            for (let year = 2020; year <= currentYear + 5; year++) {
-                const option = document.createElement('option');
-                option.value = year;
-                option.textContent = year;
-                yearSelect.appendChild(option);
-            }
-            
-            // مہینوں کا ڈراپ ڈاؤن بھریں
-            const monthSelect = document.getElementById('month-selector');
-            const months = [
-                'جنوری', 'فروری', 'مارچ', 'اپریل', 'مئی', 'جون',
-                'جولائی', 'اگست', 'ستمبر', 'اکتوبر', 'نومبر', 'دسمبر'
-            ];
-            
-            monthSelect.innerHTML = '<option value="">-- مہینہ منتخب کریں --</option>';
-            months.forEach((month, index) => {
-                const option = document.createElement('option');
-                option.value = index + 1;
-                option.textContent = month;
-                monthSelect.appendChild(option);
-            });
-            
-            // طلباء کا ڈراپ ڈاؤن بھریں
-            updateStudentSelector();
-        }
-        
-        function updateStudentSelector() {
-            const studentSelect = document.getElementById('student-selector');
-            const section = document.getElementById('section-selector').value;
-            
-            studentSelect.innerHTML = '<option value="">-- طالب علم منتخب کریں --</option>';
-            
-            attendanceData.sections[section].students.forEach(student => {
-                const option = document.createElement('option');
-                option.value = student;
-                option.textContent = student;
-                studentSelect.appendChild(option);
-            });
-        }
-        
-        // ریکارڈ لوڈ کرنے کا فنکشن
-        document.getElementById('load-record').addEventListener('click', function() {
-            const year = document.getElementById('year-selector').value;
-            const month = document.getElementById('month-selector').value;
-            const student = document.getElementById('student-selector').value;
-            const section = document.getElementById('section-selector').value;
-            
-            if (!year || !student) {
-                alert('براہ کرم سال اور طالب علم منتخب کریں');
-                return;
-            }
-            
-            loadStudentRecord(year, month, student, section);
-        });
-        
-        function loadStudentRecord(year, month, studentName, section) {
-            const recordData = document.getElementById('record-data');
-            recordData.innerHTML = '';
-            
-            let totalPresent = 0;
-            let totalLesson = 0;
-            let totalHomework = 0;
-            let totalMilestone = 0;
-            let totalDays = 0;
-            let totalLessonQuantity = 0;
-            let totalHomeworkQuantity = 0;
-            let totalMilestoneQuantity = 0;
-            
-            // تمام ڈیٹا میں تلاش کریں
-            for (const date in attendanceData.sections[section].attendance) {
-                const dateObj = new Date(date);
-                const recordYear = dateObj.getFullYear();
-                const recordMonth = dateObj.getMonth() + 1;
-                
-                // اگر سال اور مہینہ مماثل ہو
-                if ((!year || recordYear == year) && (!month || recordMonth == month)) {
-                    const studentIndex = attendanceData.sections[section].students.indexOf(studentName);
-                    if (studentIndex !== -1) {
-                        const record = attendanceData.sections[section].attendance[date][studentIndex];
-                        if (record) {
-                            totalDays++;
-                            if (record.present) totalPresent++;
-                            if (record.lesson) {
-                                totalLesson++;
-                                if (record.lessonQuantity) {
-                                    const match = record.lessonQuantity.match(/\d+/);
-                                    if (match) totalLessonQuantity += parseInt(match[0]);
-                                }
-                            }
-                            if (record.homework) {
-                                totalHomework++;
-                                if (record.homeworkQuantity) {
-                                    const match = record.homeworkQuantity.match(/\d+/);
-                                    if (match) totalHomeworkQuantity += parseInt(match[0]);
-                                }
-                            }
-                            if (record.milestone) {
-                                totalMilestone++;
-                                if (record.milestoneQuantity) {
-                                    const match = record.milestoneQuantity.match(/\d+/);
-                                    if (match) totalMilestoneQuantity += parseInt(match[0]);
-                                }
-                            }
-                            
-                            const row = document.createElement('tr');
-                            row.innerHTML = `
-                                <td>${studentName}</td>
-                                <td>${dateObj.toLocaleDateString('ur-PK')}</td>
-                                <td>${record.present ? '✔' : '✘'}</td>
-                                <td>${record.lesson ? '✔' : '✘'}</td>
-                                <td>${record.homework ? '✔' : '✘'}</td>
-                                <td>${record.milestone ? '✔' : '✘'}</td>
-                                <td>${record.comment || '-'}</td>
-                                <td>${record.lesson ? (record.lessonQuantity || '-') : '-'}</td>
-                                <td>${record.homework ? (record.homeworkQuantity || '-') : '-'}</td>
-                                <td>${record.milestone ? (record.milestoneQuantity || '-') : '-'}</td>
-                            `;
-                            recordData.appendChild(row);
-                        }
-                    }
-                }
-            }
-            
-            // خلاصہ دکھائیں
-            const summaryStats = document.getElementById('summary-stats');
-            summaryStats.innerHTML = `
-                <h4>${studentName} کا خلاصہ (${year}${month ? ' - ' + document.getElementById('month-selector').selectedOptions[0].text : ''})</h4>
-                <div class="summary-cards">
-                    <div class="summary-card">
-                        <h5>کل دن</h5>
-                        <div class="stat-value">${totalDays}</div>
-                    </div>
-                    <div class="summary-card">
-                        <h5>حاضری</h5>
-                        <div class="stat-value">${totalPresent} (${totalDays > 0 ? Math.round((totalPresent/totalDays)*100) : 0}%)</div>
-                    </div>
-                    <div class="summary-card">
-                        <h5>سبق</h5>
-                        <div class="stat-value">${totalLesson} (${totalPresent > 0 ? Math.round((totalLesson/totalPresent)*100) : 0}%)</div>
-                        ${totalLessonQuantity > 0 ? `<div class="quantity-info">کل مقدار: ${totalLessonQuantity}</div>` : ''}
-                    </div>
-                    <div class="summary-card">
-                        <h5>سبقی</h5>
-                        <div class="stat-value">${totalHomework} (${totalPresent > 0 ? Math.round((totalHomework/totalPresent)*100) : 0}%)</div>
-                        ${totalHomeworkQuantity > 0 ? `<div class="quantity-info">کل مقدار: ${totalHomeworkQuantity}</div>` : ''}
-                    </div>
-                    <div class="summary-card">
-                        <h5>منزل</h5>
-                        <div class="stat-value">${totalMilestone} (${totalPresent > 0 ? Math.round((totalMilestone/totalPresent)*100) : 0}%)</div>
-                        ${totalMilestoneQuantity > 0 ? `<div class="quantity-info">کل مقدار: ${totalMilestoneQuantity}</div>` : ''}
-                    </div>
+            <div class="record-summary">
+                <h3>خلاصہ</h3>
+                <div id="summary-stats">
+                    <!-- خلاصہ اعداد و شمار یہاں داخل ہوں گے -->
                 </div>
-            `;
+                
+                <div class="share-buttons">
+                    <button class="small-btn whatsapp-btn" id="share-whatsapp">
+                        <i class="fab fa-whatsapp"></i> واٹس ایپ پر شیئر کریں
+                    </button>
+                    <button class="small-btn pdf-btn" id="export-pdf">
+                        <i class="fas fa-file-pdf"></i> PDF بنائیں
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- طلباء مینجمنٹ ٹیب -->
+    <div class="tab-content" id="students-tab">
+        <h2>طلباء کی انتظامیہ</h2>
+        
+        <div class="student-management">
+            <h3>طلباء کی فہرست</h3>
+            <div class="input-group">
+                <input type="text" id="new-student-name" placeholder="نیا طالب علم کا نام">
+                <input type="text" id="new-student-phone" placeholder="فون نمبر">
+                <button class="small-btn add-btn" id="add-student-btn">شامل کریں</button>
+            </div>
             
-            document.getElementById('full-record-result').style.display = 'block';
-        }
+            <div class="student-list" id="student-list">
+                <!-- طلباء کی فہرست یہاں ظاہر ہوگی -->
+            </div>
+            
+            <div style="margin-top: 10px;">
+                <button class="small-btn delete-btn" id="clear-students-btn">تمام طلباء حذف کریں</button>
+            </div>
+        </div>
+        
+        <div style="margin-top: 20px;">
+            <h3>درآمد/برآمد</h3>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <button class="small-btn add-btn" id="export-students-btn">طلباء کی فہرست برآمد کریں</button>
+                <input type="file" id="import-students-btn" style="display: none;" accept=".json"/>
+                <button class="small-btn add-btn" onclick="document.getElementById('import-students-btn').click()">طلباء کی فہرست درآمد کریں</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- بیک اپ اور بحالی ٹیب -->
+    <div class="tab-content" id="backup-tab">
+        <h2>ڈیٹا بیک اپ اور بحالی</h2>
+        
+        <div class="backup-section">
+            <h3>خودکار بیک اپ</h3>
+            <p>یہ ایپ خود بخود ہر تبدیلی پر ڈیٹا کا بیک اپ محفوظ کرتی ہے۔ آخری 5 بیک اپس دستیاب ہیں:</p>
+            <div id="auto-backup-list" style="margin: 10px 0;"></div>
+            
+            <h3>دستی بیک اپ</h3>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px;">
+                <button class="small-btn add-btn" id="create-backup-btn">بیک اپ بنائیں</button>
+                <button class="small-btn view-btn" id="view-all-backups-btn">تمام بیک اپس دیکھیں</button>
+            </div>
+            
+            <h3>بحالی کے اختیارات</h3>
+            <div style="margin-top: 10px;">
+                <button class="small-btn add-btn" id="restore-latest-btn">تازہ ترین بیک اپ سے بحالی</button>
+                <button class="small-btn delete-btn" id="clear-all-data-btn" style="margin-top: 8px;">تمام ڈیٹا صاف کریں</button>
+            </div>
+        </div>
+        
+        <div style="margin-top: 20px;">
+            <h3>ڈیٹا کی سالمیت کی تصدیق</h3>
+            <button class="small-btn view-btn" id="verify-data-btn">ڈیٹا کی جانچ کریں</button>
+            <div id="data-verification-result" style="margin-top: 10px;"></div>
+        </div>
+    </div>
+</div>
+    <!-- تبصرہ موڈل -->
+<div id="comment-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">×</span>
+        <h2 id="comment-title">طالب علم کا تبصرہ</h2>
+        <textarea id="comment-text" rows="4" style="width: 100%; padding: 8px; border-radius: var(--border-radius); border: 1px solid #ddd;"></textarea>
+        <button class="small-btn add-btn" id="save-comment" style="margin-top: 10px;">محفوظ کریں</button>
+    </div>
+</div>
 
-        // ڈیٹا ایکسپورٹ/امپورٹ کا نظام
-        function exportData() {
-            const dataStr = JSON.stringify(attendanceData);
-            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-            
-            const exportName = 'حاضری_ڈیٹا_' + new Date().toISOString().split('T')[0] + '.json';
-            
-            const linkElement = document.createElement('a');
-            linkElement.setAttribute('href', dataUri);
-            linkElement.setAttribute('download', exportName);
-            linkElement.click();
-        }
-        
-        function importData(event) {
-            const file = event.target.files[0];
-            const reader = new FileReader();
-            
-            reader.onload = function(e) {
-                try {
-                    const contents = e.target.result;
-                    const importedData = JSON.parse(contents);
-                    
-                    if (importedData.sections && importedData.studentDetails) {
-                        attendanceData = importedData;
-                        localStorage.setItem('attendanceData', JSON.stringify(attendanceData));
-                        initApp();
-                        alert('ڈیٹا کامیابی سے لوڈ ہو گیا!');
-                    } else {
-                        alert('غلط ڈیٹا فائل۔ براہ کرم درست JSON فائل منتخب کریں۔');
-                    }
-                } catch (error) {
-                    console.error('درآمد میں خرابی:', error);
-                    alert('فائل پڑھنے میں خرابی۔ براہ کرم دوبارہ کوشش کریں۔');
-                }
-            };
-            
-            reader.readAsText(file);
-        }
+<!-- فون نمبر موڈل -->
+<div id="phone-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">×</span>
+        <h2 id="phone-title">سرپرست کا فون نمبر</h2>
+        <input type="text" id="phone-number" placeholder="">
+        <button class="small-btn add-btn" id="save-phone" style="margin-top: 10px;">محفوظ کریں</button>
+    </div>
+</div>
 
-        // طلباء کی فہرست برآمد/درآمد
-        function exportStudents() {
-            const section = document.getElementById('section-selector').value;
-            const dataToExport = {
-                students: attendanceData.sections[section].students,
-                studentDetails: attendanceData.studentDetails
-            };
-            
-            const dataStr = JSON.stringify(dataToExport);
-            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-            
-            const exportName = 'طلباء_فہرست_' + section + '_' + new Date().toISOString().split('T')[0] + '.json';
-            
-            const linkElement = document.createElement('a');
-            linkElement.setAttribute('href', dataUri);
-            linkElement.setAttribute('download', exportName);
-            linkElement.click();
-        }
-        
-        function importStudents(event) {
-            const file = event.target.files[0];
-            const reader = new FileReader();
-            const section = document.getElementById('section-selector').value;
-            
-            reader.onload = function(e) {
-                try {
-                    const contents = e.target.result;
-                    const importedData = JSON.parse(contents);
-                    
-                    if (Array.isArray(importedData.students) && importedData.studentDetails) {
-                        attendanceData.sections[section].students = importedData.students;
-                        attendanceData.studentDetails = importedData.studentDetails;
-                        
-                        saveData();
-                        renderStudentList();
-                        loadAttendanceData();
-                        updateStudentSelector();
-                        alert('طلباء کی فہرست کامیابی سے لوڈ ہو گئی!');
-                    } else {
-                        alert('غلط ڈیٹا فائل۔ براہ کرم درست JSON فائل منتخب کریں۔');
-                    }
-                } catch (error) {
-                    console.error('درآمد میں خرابی:', error);
-                    alert('فائل پڑھنے میں خرابی۔ براہ کرم دوبارہ کوشش کریں۔');
-                }
-            };
-            
-            reader.readAsText(file);
-        }
+<!-- نام ایڈیٹ موڈل -->
+<div id="name-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">×</span>
+        <h2 id="name-title">طالب علم کا نام</h2>
+        <input type="text" id="student-name" placeholder="">
+        <button class="small-btn add-btn" id="save-name" style="margin-top: 10px;">محفوظ کریں</button>
+    </div>
+</div>
 
-        // ایونٹ لسٹنرز شامل کریں
-        function addEventListeners() {
-            // چیک باکسز کے لیے
-            document.querySelectorAll('.attendance-check').forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                    const dateStr = currentDate.toISOString().split('T')[0];
-                    const section = document.getElementById('section-selector').value;
-                    const index = this.dataset.index;
-                    const field = this.dataset.field;
-                    
-                    attendanceData.sections[section].attendance[dateStr][index][field] = this.checked;
-                    
-                    // اگر حاضری غیر چیک ہو تو دیگر فیلڈز غیر فعال ہو جائیں
-                    if (field === 'present') {
-                        const row = this.closest('tr');
-                        const lessonCheck = row.querySelector('[data-field="lesson"]');
-                        const homeworkCheck = row.querySelector('[data-field="homework"]');
-                        const milestoneCheck = row.querySelector('[data-field="milestone"]');
-                        
-                        lessonCheck.disabled = !this.checked;
-                        homeworkCheck.disabled = !this.checked;
-                        milestoneCheck.disabled = !this.checked;
-                        
-                        if (!this.checked) {
-                            lessonCheck.checked = false;
-                            homeworkCheck.checked = false;
-                            milestoneCheck.checked = false;
-                            attendanceData.sections[section].attendance[dateStr][index].lesson = false;
-                            attendanceData.sections[section].attendance[dateStr][index].homework = false;
-                            attendanceData.sections[section].attendance[dateStr][index].milestone = false;
-                        }
-                        
-                        // قطار کا رنگ تبدیل کریں
-                        if (this.checked) {
-                            row.classList.remove('absent-row');
-                            row.classList.add('present-row');
-                        } else {
-                            row.classList.remove('present-row');
-                            row.classList.add('absent-row');
-                        }
-                    }
-                    
-                    saveData();
-                    updateStats();
-                });
-            });
-            
-            // تبصرہ آئیکن کے لیے
-            document.querySelectorAll('.comment-icon').forEach(icon => {
-                icon.addEventListener('click', function() {
-                    const dateStr = currentDate.toISOString().split('T')[0];
-                    const section = document.getElementById('section-selector').value;
-                    const index = this.dataset.index;
-                    
-                    selectedStudentIndex = index;
-                    const studentName = attendanceData.sections[section].students[index];
-                    const comment = attendanceData.sections[section].attendance[dateStr][index].comment || '';
-                    
-                    document.getElementById('comment-title').textContent = `${studentName} کا تبصرہ`;
-                    document.getElementById('comment-text').value = comment;
-                    document.getElementById('comment-modal').style.display = 'block';
-                });
-            });
-            
-            // فون نمبر ایڈیٹ کے لیے
-            document.querySelectorAll('.edit-phone').forEach(editBtn => {
-                editBtn.addEventListener('click', function() {
-                    const studentName = this.dataset.student;
-                    const phone = attendanceData.studentDetails[studentName]?.phone || '';
-                    
-                    document.getElementById('phone-title').textContent = `${studentName} کا فون نمبر`;
-                    document.getElementById('phone-number').value = phone;
-                    document.getElementById('phone-modal').style.display = 'block';
-                    
-                    // منتخب طالب علم کو محفوظ کریں
-                    selectedStudentIndex = attendanceData.sections[document.getElementById('section-selector').value].students.indexOf(studentName);
-                });
-            });
-            
-            // مقدار آئیکن کے لیے
-            document.querySelectorAll('.quantity-icon').forEach(icon => {
-                icon.addEventListener('click', function() {
-                    const dateStr = currentDate.toISOString().split('T')[0];
-                    const section = document.getElementById('section-selector').value;
-                    const index = this.dataset.index;
-                    const field = this.dataset.field;
-                    
-                    selectedStudentIndex = index;
-                    currentField = field;
-                    const studentName = attendanceData.sections[section].students[index];
-                    const quantity = attendanceData.sections[section].attendance[dateStr][index][`${field}Quantity`] || '';
-                    
-                    document.getElementById('quantity-title').textContent = `${studentName} کی مقدار کی تفصیلات`;
-                    
-                    // تمام مقدار فیلڈز کو صاف کریں
-                    document.getElementById('lesson-quantity').value = '';
-                    document.getElementById('homework-quantity').value = '';
-                    document.getElementById('milestone-quantity').value = '';
-                    
-                    // متعلقہ فیلڈ کو سیٹ کریں
-                    if (field === 'lesson') {
-                        document.getElementById('lesson-quantity').value = quantity;
-                    } else if (field === 'homework') {
-                        document.getElementById('homework-quantity').value = quantity;
-                    } else if (field === 'milestone') {
-                        document.getElementById('milestone-quantity').value = quantity;
-                    }
-                    
-                    document.getElementById('quantity-modal').style.display = 'block';
-                });
-            });
-            
-            // رپورٹ بٹن کے لیے
-            document.querySelectorAll('.view-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const studentName = this.dataset.student;
-                    const section = document.getElementById('section-selector').value;
-                    
-                    document.getElementById('report-title').textContent = `${studentName} کی رپورٹ`;
-                    
-                    // طالب علم کا مکمل ریکارڈ تلاش کریں
-                    let totalDays = 0;
-                    let presentDays = 0;
-                    let lessonDays = 0;
-                    let homeworkDays = 0;
-                    let milestoneDays = 0;
-                    let lastComment = '';
-                    let totalLessonQuantity = 0;
-                    let totalHomeworkQuantity = 0;
-                    let totalMilestoneQuantity = 0;
-                    
-                    const studentIndex = attendanceData.sections[section].students.indexOf(studentName);
-                    if (studentIndex !== -1) {
-                        for (const date in attendanceData.sections[section].attendance) {
-                            const record = attendanceData.sections[section].attendance[date][studentIndex];
-                            if (record) {
-                                totalDays++;
-                                if (record.present) presentDays++;
-                                if (record.lesson) {
-                                    lessonDays++;
-                                    if (record.lessonQuantity) {
-                                        const match = record.lessonQuantity.match(/\d+/);
-                                        if (match) totalLessonQuantity += parseInt(match[0]);
-                                    }
-                                }
-                                if (record.homework) {
-                                    homeworkDays++;
-                                    if (record.homeworkQuantity) {
-                                        const match = record.homeworkQuantity.match(/\d+/);
-                                        if (match) totalHomeworkQuantity += parseInt(match[0]);
-                                    }
-                                }
-                                if (record.milestone) {
-                                    milestoneDays++;
-                                    if (record.milestoneQuantity) {
-                                        const match = record.milestoneQuantity.match(/\d+/);
-                                        if (match) totalMilestoneQuantity += parseInt(match[0]);
-                                    }
-                                }
-                                if (record.comment) lastComment = record.comment;
-                            }
-                        }
-                    }
-                    
-                    const reportContent = document.querySelector('#report-content table');
-                    reportContent.innerHTML = `
-                        <tr>
-                            <th>کل دن</th>
-                            <td>${totalDays}</td>
-                        </tr>
-                        <tr>
-                            <th>حاضری</th>
-                            <td>${presentDays} (${totalDays > 0 ? Math.round((presentDays/totalDays)*100) : 0}%)</td>
-                        </tr>
-                        <tr>
-                            <th>سبق</th>
-                            <td>${lessonDays} (${presentDays > 0 ? Math.round((lessonDays/presentDays)*100) : 0}%)</td>
-                        </tr>
-                        <tr>
-                            <th>سبق کی کل مقدار</th>
-                            <td>${totalLessonQuantity > 0 ? totalLessonQuantity : "-"}</td>
-                        </tr>
-                        <tr>
-                            <th>سبقی</th>
-                            <td>${homeworkDays} (${presentDays > 0 ? Math.round((homeworkDays/presentDays)*100) : 0}%)</td>
-                        </tr>
-                        <tr>
-                            <th>سبقی کی کل مقدار</th>
-                            <td>${totalHomeworkQuantity > 0 ? totalHomeworkQuantity : "-"}</td>
-                        </tr>
-                        <tr>
-                            <th>منزل</th>
-                            <td>${milestoneDays} (${presentDays > 0 ? Math.round((milestoneDays/presentDays)*100) : 0}%)</td>
-                        </tr>
-                        <tr>
-                            <th>منزل کی کل مقدار</th>
-                            <td>${totalMilestoneQuantity > 0 ? totalMilestoneQuantity : "-"}</td>
-                        </tr>
-                        <tr>
-                            <th>آخری تبصرہ</th>
-                            <td>${lastComment || 'کوئی تبصرہ نہیں'}</td>
-                        </tr>
-                    `;
-                    
-                    document.getElementById('report-modal').style.display = 'block';
-                });
-            });
-        }
-        
-        // موڈل بند کرنے کا فنکشن
-        document.querySelectorAll('.close').forEach(closeBtn => {
-            closeBtn.addEventListener('click', function() {
-                this.closest('.modal').style.display = 'none';
-            });
-        });
-        
-        // تبصرہ محفوظ کرنے کا فنکشن
-        document.getElementById('save-comment').addEventListener('click', function() {
-            if (selectedStudentIndex !== null) {
-                const dateStr = currentDate.toISOString().split('T')[0];
-                const section = document.getElementById('section-selector').value;
-                const comment = document.getElementById('comment-text').value;
-                
-                attendanceData.sections[section].attendance[dateStr][selectedStudentIndex].comment = comment;
-                saveData();
-                renderAttendanceTable();
-                document.getElementById('comment-modal').style.display = 'none';
-            }
-        });
-        
-        // فون نمبر محفوظ کرنے کا فنکشن
-        document.getElementById('save-phone').addEventListener('click', function() {
-            if (selectedStudentIndex !== null) {
-                const section = document.getElementById('section-selector').value;
-                const studentName = attendanceData.sections[section].students[selectedStudentIndex];
-                const phone = document.getElementById('phone-number').value;
-                
-                if (!attendanceData.studentDetails[studentName]) {
-                    attendanceData.studentDetails[studentName] = {};
-                }
-                
-                attendanceData.studentDetails[studentName].phone = phone;
-                saveData();
-                renderAttendanceTable();
-                document.getElementById('phone-modal').style.display = 'none';
-            }
-        });
-        
-        // مقدار محفوظ کرنے کا فنکشن
-        document.getElementById('save-quantity').addEventListener('click', function() {
-            if (selectedStudentIndex !== null && currentField) {
-                const dateStr = currentDate.toISOString().split('T')[0];
-                const section = document.getElementById('section-selector').value;
-                
-                if (currentField === 'lesson') {
-                    attendanceData.sections[section].attendance[dateStr][selectedStudentIndex].lessonQuantity = document.getElementById('lesson-quantity').value;
-                } else if (currentField === 'homework') {
-                    attendanceData.sections[section].attendance[dateStr][selectedStudentIndex].homeworkQuantity = document.getElementById('homework-quantity').value;
-                } else if (currentField === 'milestone') {
-                    attendanceData.sections[section].attendance[dateStr][selectedStudentIndex].milestoneQuantity = document.getElementById('milestone-quantity').value;
-                }
-                
-                saveData();
-                renderAttendanceTable();
-                document.getElementById('quantity-modal').style.display = 'none';
-            }
-        });
-        
-        // نیا طالب علم شامل کرنے کا فنکشن
-        document.getElementById('add-student-btn').addEventListener('click', function() {
-            const name = document.getElementById('new-student-name').value.trim();
-            if (name) {
-                const section = document.getElementById('section-selector').value;
-                
-                // چیک کریں کہ طالب علم پہلے سے موجود نہ ہو
-                if (!attendanceData.sections[section].students.includes(name)) {
-                    attendanceData.sections[section].students.push(name);
-                    
-                    // نئے طالب علم کے لیے ڈیفالٹ ڈیٹا بنائیں تمام تاریخوں میں
-                    const currentDateStr = currentDate.toISOString().split('T')[0];
-                    for (const date in attendanceData.sections[section].attendance) {
-                        attendanceData.sections[section].attendance[date].push({
-                            present: true,
-                            lesson: false,
-                            homework: false,
-                            milestone: false,
-                            comment: '',
-                            lessonQuantity: "",
-                            homeworkQuantity: "",
-                            milestoneQuantity: ""
-                        });
-                    }
-                    
-                    // اگر آج کی تاریخ کا ڈیٹا موجود نہ ہو تو بنائیں
-                    if (!attendanceData.sections[section].attendance[currentDateStr]) {
-                        attendanceData.sections[section].attendance[currentDateStr] = 
-                            attendanceData.sections[section].students.map(() => ({
-                                present: true,
-                                lesson: false,
-                                homework: false,
-                                milestone: false,
-                                comment: '',
-                                lessonQuantity: "",
-                                homeworkQuantity: "",
-                                milestoneQuantity: ""
-                            }));
-                    }
-                    
-                    document.getElementById('new-student-name').value = '';
-                    renderStudentList();
-                    saveData();
-                    loadAttendanceData();
-                    updateStudentSelector();
-                } else {
-                    alert('یہ طالب علم پہلے سے موجود ہے');
-                }
-            } else {
-                alert('براہ کرم طالب علم کا نام درج کریں');
-            }
-        });
-        
-        // تمام طلباء حذف کرنے کا فنکشن
-        document.getElementById('clear-students-btn').addEventListener('click', function() {
-            const section = document.getElementById('section-selector').value;
-            if (confirm('کیا آپ واقعی تمام طلباء حذف کرنا چاہتے ہیں؟ تمام حاضری کا ڈیٹا بھی حذف ہو جائے گا۔')) {
-                attendanceData.sections[section].students = [];
-                attendanceData.sections[section].attendance = {};
-                renderStudentList();
-                saveData();
-                loadAttendanceData();
-                updateStudentSelector();
-            }
-        });
-        
-        // طلباء کی فہرست برآمد کرنے کا فنکشن
-        document.getElementById('export-students-btn').addEventListener('click', exportStudents);
-        
-        // طلباء کی فہرست درآمد کرنے کا فنکشن
-        document.getElementById('import-students-btn').addEventListener('change', importStudents);
-        
-        // تاریخ پکَر کے لیے ایونٹ لسٹنر
-        document.getElementById('date-picker').addEventListener('change', function() {
-            const selectedDate = new Date(this.value);
-            if (!isNaN(selectedDate.getTime())) {
-                currentDate = selectedDate;
-                updateDateDisplay();
-                loadAttendanceData();
-            }
-        });
-        
-        // سیکشن تبدیل کرنے پر
-        document.getElementById('section-selector').addEventListener('change', function() {
-            renderStudentList();
-            loadAttendanceData();
-            updateStudentSelector();
-        });
-        
-        // ٹیبز کو تبدیل کرنے کا فنکشن
-        document.querySelectorAll('.tab').forEach(tab => {
-            tab.addEventListener('click', function() {
-                const tabId = this.dataset.tab;
-                
-                // تمام ٹیبز اور مواد کو غیر فعال کریں
-                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                
-                // منتخب ٹیب اور مواد کو فعال کریں
-                this.classList.add('active');
-                document.getElementById(`${tabId}-tab`).classList.add('active');
-                
-                // اگر مکمل ریکارڈ ٹیب ہو تو اسے انیشیلائز کریں
-                if (tabId === 'full-record') {
-                    initializeRecordTab();
-                }
-            });
-        });
-        
-        // ڈیٹا محفوظ کرنے کا بٹن
-        document.getElementById('save-btn').addEventListener('click', function() {
-            saveData();
-            alert('ڈیٹا کامیابی سے محفوظ ہو گیا!');
-        });
-        
-        // ڈیٹا ایکسپورٹ کا بٹن
-        document.getElementById('export-btn').addEventListener('click', exportData);
-        
-        // ڈیٹا امپورٹ کا بٹن
-        document.getElementById('import-btn').addEventListener('change', importData);
-        
-        // نیا سال شامل کرنے کا بٹن
-        document.getElementById('add-year-btn').addEventListener('click', function() {
-            document.getElementById('year-modal').style.display = 'block';
-        });
-        
-        // نیا سال محفوظ کرنے کا بٹن
-        document.getElementById('save-year').addEventListener('click', function() {
-            const newYear = parseInt(document.getElementById('new-year').value);
-            const yearSelect = document.getElementById('year-selector');
-            
-            if (newYear && !isNaN(newYear) && newYear >= 2023 && newYear <= 2100) {
-                // چیک کریں کہ یہ سال پہلے سے موجود تو نہیں
-                let yearExists = false;
-                for (let i = 0; i < yearSelect.options.length; i++) {
-                    if (parseInt(yearSelect.options[i].value) === newYear) {
-                        yearExists = true;
-                        break;
-                    }
-                }
-                
-                if (!yearExists) {
-                    const option = document.createElement('option');
-                    option.value = newYear;
-                    option.textContent = newYear;
-                    yearSelect.appendChild(option);
-                    option.selected = true;
-                    alert(`سال ${newYear} کامیابی سے شامل کر دیا گیا ہے`);
-                } else {
-                    alert('یہ سال پہلے سے موجود ہے');
-                }
-                
-                document.getElementById('year-modal').style.display = 'none';
-                document.getElementById('new-year').value = '';
-            } else {
-                alert('براہ کرم 2023 سے 2100 کے درمیان ایک درست سال درج کریں');
-            }
-        });
-        
-        // واٹس ایپ شیئر بٹن
-        document.getElementById('share-whatsapp').addEventListener('click', function() {
-            const studentName = document.getElementById('student-selector').value;
-            const year = document.getElementById('year-selector').value;
-            const month = document.getElementById('month-selector').value;
-            const section = document.getElementById('section-selector').value;
-            
-            if (!studentName) {
-                alert('براہ کرم پہلے طالب علم منتخب کریں');
-                return;
-            }
-            
-            // طالب علم کا ریکارڈ تلاش کریں
-            let totalDays = 0;
-            let presentDays = 0;
-            let lessonDays = 0;
-            let homeworkDays = 0;
-            let milestoneDays = 0;
-            let totalLessonQuantity = 0;
-            let totalHomeworkQuantity = 0;
-            let totalMilestoneQuantity = 0;
-            
-            const studentIndex = attendanceData.sections[section].students.indexOf(studentName);
-            if (studentIndex !== -1) {
-                for (const date in attendanceData.sections[section].attendance) {
-                    const dateObj = new Date(date);
-                    const recordYear = dateObj.getFullYear();
-                    const recordMonth = dateObj.getMonth() + 1;
-                    
-                    if ((!year || recordYear == year) && (!month || recordMonth == month)) {
-                        const record = attendanceData.sections[section].attendance[date][studentIndex];
-                        if (record) {
-                            totalDays++;
-                            if (record.present) presentDays++;
-                            if (record.lesson) {
-                                lessonDays++;
-                                if (record.lessonQuantity) {
-                                    const match = record.lessonQuantity.match(/\d+/);
-                                    if (match) totalLessonQuantity += parseInt(match[0]);
-                                }
-                            }
-                            if (record.homework) {
-                                homeworkDays++;
-                                if (record.homeworkQuantity) {
-                                    const match = record.homeworkQuantity.match(/\d+/);
-                                    if (match) totalHomeworkQuantity += parseInt(match[0]);
-                                }
-                            }
-                            if (record.milestone) {
-                                milestoneDays++;
-                                if (record.milestoneQuantity) {
-                                    const match = record.milestoneQuantity.match(/\d+/);
-                                    if (match) totalMilestoneQuantity += parseInt(match[0]);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            
-            const summaryText = `
-*${studentName} کی رپورٹ (${year}${month ? ' - ' + document.getElementById('month-selector').selectedOptions[0].text : ''})*
+<!-- مقدار موڈل -->
+<div id="quantity-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">×</span>
+        <h2 id="quantity-title">مقدار کی تفصیلات</h2>
+        <div class="input-group">
+            <label for="lesson-quantity">سبق مقدار</label>
+            <input type="text" id="lesson-quantity" placeholder="">
+        </div>
+        <div class="input-group">
+            <label for="homework-quantity">سبقی مقدار</label>
+            <input type="text" id="homework-quantity" placeholder="">
+        </div>
+        <div class="input-group">
+            <label for="milestone-quantity">منزل مقدار</label>
+            <input type="text" id="milestone-quantity" placeholder="">
+        </div>
+        <button class="small-btn add-btn" id="save-quantity" style="margin-top: 10px;">محفوظ کریں</button>
+    </div>
+</div>
 
-📅 کل دن: ${totalDays}
-✅ حاضری: ${presentDays} (${totalDays > 0 ? Math.round((presentDays/totalDays)*100) : 0}%)
-📖 سبق: ${lessonDays} (${presentDays > 0 ? Math.round((lessonDays/presentDays)*100) : 0}%)
-${totalLessonQuantity > 0 ? `📏 کل سبق مقدار: ${totalLessonQuantity}\n` : ''}
-📚 سبقی: ${homeworkDays} (${presentDays > 0 ? Math.round((homeworkDays/presentDays)*100) : 0}%)
-${totalHomeworkQuantity > 0 ? `📏 کل سبقی مقدار: ${totalHomeworkQuantity}\n` : ''}
-🎯 منزل: ${milestoneDays} (${presentDays > 0 ? Math.round((milestoneDays/presentDays)*100) : 0}%)
-${totalMilestoneQuantity > 0 ? `📏 کل منزل مقدار: ${totalMilestoneQuantity}\n` : ''}
-            `.trim();
-            
-            const encodedText = encodeURIComponent(summaryText);
-            window.open(`https://wa.me/?text=${encodedText}`, '_blank');
+<!-- سبق مقدار موڈل -->
+<div id="lesson-quantity-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">×</span>
+        <h2 id="lesson-quantity-title">سبق مقدار</h2>
+        <input type="text" id="lesson-quantity-input" placeholder="">
+        <button class="small-btn add-btn" id="save-lesson-quantity" style="margin-top: 10px;">محفوظ کریں</button>
+    </div>
+</div>
+
+<!-- سبقی مقدار موڈل -->
+<div id="homework-quantity-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">×</span>
+        <h2 id="homework-quantity-title">سبقی مقدار</h2>
+        <input type="text" id="homework-quantity-input" placeholder="">
+        <button class="small-btn add-btn" id="save-homework-quantity" style="margin-top: 10px;">محفوظ کریں</button>
+    </div>
+</div>
+
+<!-- منزل مقدار موڈل -->
+<div id="milestone-quantity-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">×</span>
+        <h2 id="milestone-quantity-title">منزل مقدار</h2>
+        <input type="text" id="milestone-quantity-input" placeholder="">
+        <button class="small-btn add-btn" id="save-milestone-quantity" style="margin-top: 10px;">محفوظ کریں</button>
+    </div>
+</div>
+
+<!-- رپورٹ موڈل -->
+<div id="report-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">×</span>
+        <h2 id="report-title">طالب علم کی رپورٹ</h2>
+        <div id="report-content">
+            <table class="report-table">
+                <!-- رپورٹ ڈیٹا یہاں داخل ہوگا -->
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- نیا سال شامل کرنے کا موڈل -->
+<div id="year-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">×</span>
+        <h2>نیا سال شامل کریں</h2>
+        <input type="number" id="new-year" placeholder="" min="2023" max="2100" style="width: 100%; padding: 8px; border-radius: var(--border-radius); border: 1px solid #ddd; margin: 10px 0;">
+        <button class="small-btn add-btn" id="save-year" style="margin-top: 10px;">محفوظ کریں</button>
+    </div>
+</div>
+
+<!-- بیک اپ موڈل -->
+<div id="backup-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">×</span>
+        <h2>تمام دستیاب بیک اپس</h2>
+        <div id="all-backups-list" style="max-height: 400px; overflow-y: auto; margin: 15px 0;"></div>
+        <button class="small-btn delete-btn" id="delete-old-backups-btn" style="margin-top: 10px;">پرانی بیک اپس حذف کریں (5 سے زیادہ)</button>
+    </div>
+</div>
+
+<button id="refresh-btn" title="ریفریش">⟳</button>
+    
+<!-- External JavaScript -->
+<script src="script.js"></script>
+
+<!-- Service Worker Registration -->
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                console.log('Service Worker registered with scope: ', registration.scope);
+            }, function(err) {
+                console.log('Service Worker registration failed: ', err);
+            });
         });
-        
-        // ونڈو کے باہر کلک کرنے پر موڈل بند ہو
-        window.addEventListener('click', function(event) {
-            if (event.target.classList.contains('modal')) {
-                event.target.style.display = 'none';
-            }
-        });
-        
-        // ایپلیکیشن شروع کریں
-        document.addEventListener('DOMContentLoaded', function() {
-            initApp();
-        });
-    </script>
+    }
+</script>
 </body>
 </html>
