@@ -1,16 +1,15 @@
- // کیش کا نام اور ورژن
-const CACHE_NAME = 'hifaz-tracker-cache-v3'; // ورژن تبدیل کیا تاکہ پرانا کیش صاف ہو جائے
-const REPO_NAME = '/hifaz--tracker';
+   // کیش کا نام اور ورژن
+const CACHE_NAME = 'hifaz-tracker-cache-v4'; // ورژن اپڈیٹ کیا تاکہ پرانا کیش صاف ہو جائے
 
-// وہ فائلیں جنہیں کیش کرنا ہے
+// وہ فائلیں جنہیں کیش کرنا ہے (اب relative paths کے ساتھ)
 const urlsToCache = [
-  `${REPO_NAME}/`,
-  `${REPO_NAME}/index.html`,
-  `${REPO_NAME}/style.css`,
-  `${REPO_NAME}/script.js`,
-  `${REPO_NAME}/manifest.json`,
-  `${REPO_NAME}/icons/icon-192x192.png`,
-  `${REPO_NAME}/icons/icon-512x512.png`,
+  '.',
+  'index.html',
+  'style.css',
+  'script.js',
+  'manifest.json',
+  'icons/icon-192x192.png',
+  'icons/icon-512x512.png',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
   'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',
   'https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js'
