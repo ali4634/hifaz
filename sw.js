@@ -1,5 +1,5 @@
    // کیش کا نام اور ورژن
-const CACHE_NAME = 'hifaz-tracker-cache-v4'; // ورژن اپڈیٹ کیا تاکہ پرانا کیش صاف ہو جائے
+const CACHE_NAME = 'hifaz-app-cache-v1'; // ورژن اپڈیٹ کیا تاکہ پرانا کیش صاف ہو جائے
 
 // وہ فائلیں جنہیں کیش کرنا ہے (اب relative paths کے ساتھ)
 const urlsToCache = [
