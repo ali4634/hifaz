@@ -1,26 +1,13 @@
- // کیشے کا نام اور ورژن
-const CACHE_NAME = 'hifaz-app-cache-v3'; // ورژن کو پھر سے اپ ڈیٹ کیا
+// کیشے کا نام اور ایک نیا ورژن
+const CACHE_NAME = 'hifaz-core-cache-v1';
 
-// وہ تمام فائلیں جنہیں کیش کرنا ہے (نئی آئیکن فائلوں کے ساتھ)
+// صرف اور صرف بنیادی فائلیں جن کے بغیر ایپ چل ہی نہیں سکتی
 const urlsToCache = [
   '.',
   'index.html',
   'style.css',
   'script.js',
-  'manifest.json',
-  
-  // نئی آئیکن فائلیں
-  'apple-touch-icon.png',
-  'favicon.ico',
-  'favicon-16x16.png',
-  'favicon-32x32.png',
-  'android-chrome-192x192.png',
-  'android-chrome-512x512.png',
-
-  // بیرونی لائبریریاں (External Libraries)
-  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
-  'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',
-  'https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js'
+  'manifest.json'
 ];
 
 // سروس ورکر انسٹال کرنا
@@ -28,11 +15,12 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
-        console.log('کیش کھولا گیا اور تمام ضروری فائلیں کیش کی جا رہی ہیں');
+        console.log('سادہ کیشے کھولا گیا اور صرف بنیادی فائلیں کیش کی جا رہی ہیں');
         return cache.addAll(urlsToCache);
       })
       .catch(error => {
-        console.error('کیشنگ میں ناکامی:', error);
+        // یہ ایرر ہمیں بتائے گا کہ کیا انسٹالیشن میں مسئلہ ہے
+        console.error('بنیادی کیشنگ میں شدید ناکامی:', error);
       })
   );
   self.skipWaiting();
@@ -56,7 +44,6 @@ self.addEventListener('activate', event => {
     caches.keys().then(cacheNames => {
       return Promise.all(
         cacheNames.map(cacheName => {
-          // پرانے کیشے کو حذف کرو
           if (cacheWhitelist.indexOf(cacheName) === -1) {
             return caches.delete(cacheName);
           }
