@@ -1,9 +1,8 @@
- // سروس ورکر کا ورژن اور کیشے کا نام متعین کریں
-// جب بھی آپ اپنی فائلوں میں کوئی تبدیلی کریں تو اس ورژن کو تبدیل کریں
-// چونکہ ہم sw.js کو اپ ڈیٹ کر رہے ہیں، اس لیے ورژن کو v1.2 کر دیں
-const CACHE_VERSION = 'v1.2'; 
+ // سروس ورکر کا حتمی ورژن
+const CACHE_VERSION = 'v2.0-final'; 
 const CACHE_NAME = `hifaz-tracker-${CACHE_VERSION}`;
 
+// صرف وہ فائلیں جو آپ کی ریپوزٹری میں واقعی موجود ہیں
 const FILES_TO_CACHE = [
   '/hifaz/',
   '/hifaz/index.html',
@@ -12,11 +11,7 @@ const FILES_TO_CACHE = [
   '/hifaz/manifest.json',
   '/hifaz/apple-touch-icon.png',
   '/hifaz/android-chrome-192x192.png',
-  '/hifaz/android-chrome-512x512.png',
-  '/hifaz/favicon.ico',
-  '/hifaz/favicon-16x16.png',
-  '/hifaz/favicon-32x32.png',
-  '/hifaz/site.webmanifest'
+  '/hifaz/android-chrome-512x512.png'
 ];
 
 // انسٹال ایونٹ: تمام فائلیں کیشے کریں
@@ -24,7 +19,7 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => {
-        console.log('[Service Worker] Caching all specified files');
+        console.log('[Service Worker] Caching all specified files for offline use.');
         return cache.addAll(FILES_TO_CACHE);
       })
       .then(() => self.skipWaiting())
@@ -37,6 +32,7 @@ self.addEventListener('activate', (event) => {
     caches.keys().then((keyList) => {
       return Promise.all(keyList.map((key) => {
         if (key !== CACHE_NAME) {
+          console.log('[Service Worker] Removing old cache', key);
           return caches.delete(key);
         }
       }));
@@ -45,31 +41,22 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// فیچ ایونٹ: نیٹ ورک کی درخواستوں کو انٹرسیپٹ کریں (اپ ڈیٹ شدہ منطق)
+// فیچ ایونٹ: آف لائن ریفریش کے لیے بہترین حکمت عملی
 self.addEventListener('fetch', (event) => {
-  // صرف GET درخواستوں کا جواب دیں گے
   if (event.request.method !== 'GET') {
     return;
   }
-
-  // صفحہ ریفریش (نیویگیشن) کے لیے: نیٹ ورک پہلے، پھر کیشے
+  // صفحہ ریفریش کے لیے (نیٹ ورک پہلے)
   if (event.request.mode === 'navigate') {
     event.respondWith(
-      fetch(event.request)
-        .catch(() => {
-          // اگر نیٹ ورک ناکام ہو جائے تو کیشے سے মূল صفحہ واپس کریں
-          return caches.match('/hifaz/index.html');
-        })
+      fetch(event.request).catch(() => caches.match('/hifaz/index.html'))
     );
     return;
   }
-
-  // دیگر تمام درخواستوں (CSS, JS, تصاویر) کے لیے: کیشے پہلے، پھر نیٹ ورک
+  // باقی تمام فائلوں کے لیے (کیشے پہلے)
   event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        // اگر کیشے میں ہے تو اسے واپس کریں، ورنہ نیٹ ورک سے حاصل کریں
-        return response || fetch(event.request);
-      })
+    caches.match(event.request).then((response) => {
+      return response || fetch(event.request);
+    })
   );
 });
