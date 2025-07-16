@@ -1,24 +1,21 @@
  {
-  "name": "Hifaz Tracker - حاضری و سبق رجسٹر",
-  "short_name": "Hifaz Tracker",
-  "description": "طلباء کی حاضری اور سبق کی پیشرفت کو ٹریک کرنے کے لیے ایک درخواست۔",
-  "start_url": ".",
-  "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#3498db",
-  "orientation": "portrait-primary",
-  "icons": [
-    {
-      "src": "icon-192x192.png",
-      "type": "image/png",
-      "sizes": "192x192",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icon-512x512.png",
-      "type": "image/png",
-      "sizes": "512x512",
-      "purpose": "any maskable"
-    }
-  ]
+    "name": "Hifaz Tracker",
+    "short_name": "Hifaz",
+    "start_url": "/hifaz/index.html",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#000000",
+    "scope": "/hifaz/",
+    "icons": [
+        {
+            "src": "/hifaz/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/hifaz/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
 }
